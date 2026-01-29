@@ -1,12 +1,11 @@
-//import ImageTabs from "@/components/image-tabs";
+import ImageTabs from "@/components/ui/image-tabs";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Briefcase, CheckCircle2, TrendingUp } from "lucide-react";
 import Link from "next/link";
-import Navbar from "@/components/ui/navbar";
+
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <Navbar/>
       <main className="flex-1">
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-32">
@@ -30,11 +29,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Hero Images Section with Tabs 
-        
-         <ImageTabs />
-*/}
-      
+        {/* Hero Images Section with Tabs */}
+        <ImageTabs />
+
         {/* Features Section */}
         <section className="border-t bg-white py-24">
           <div className="container mx-auto px-4">

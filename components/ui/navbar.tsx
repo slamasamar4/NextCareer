@@ -17,8 +17,7 @@ export default function navbar(){
           Job Tracker
         </Link>
         <div className="flex items-center gap-4">
-          {session?.user ? (
-            <>
+          
               <Link href="/dashboard">
                 <Button
                   variant="ghost"
@@ -27,36 +26,16 @@ export default function navbar(){
                   Dashboard
                 </Button>
               </Link>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <Button
-                    variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
-                  >
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-primary text-white">
-                        {session.user.name[0].toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent className="w-56" align="end">
-                  <DropdownMenuLabel className="font-normal">
+             
+                  
+                    
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {session.user.name}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        {session.user.email}
                       </p>
                     </div>
-                  </DropdownMenuLabel>
-                  <SignOutButton />
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-          ) : (
+                
             <>
               <Link href="/sign-in">
                 <Button
@@ -72,7 +51,6 @@ export default function navbar(){
                 </Button>
               </Link>
             </>
-          )}
         </div>
       </div>
     </nav>
