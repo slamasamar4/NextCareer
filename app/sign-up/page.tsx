@@ -5,7 +5,7 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
+  CardHeader,  
   CardTitle,
 } from "@/components/ui/card";
 import { signUp } from "@/lib/auth/auth-client";
