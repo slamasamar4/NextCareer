@@ -1,21 +1,20 @@
-import { string } from "better-auth";
 import mongoose, {Schema,Document} from "mongoose";
 
 export interface IBoard extends Document {
-    title: string;
-    useID : string;
+    name: string;
+    userId : string;
     columns: mongoose.Types.ObjectId[];
 
     createdAt: Date;
     updatedAt: Date;
 }
-const BoardSchema: Schema = new Schema( {   
+const BoardSchema: Schema = new Schema( {
     name : {
         type: String,
         required: true,
     },
     userId : {
-        type: string,
+        type: String,
        index: true,
         required: true,
     },
