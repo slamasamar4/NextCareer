@@ -32,19 +32,29 @@ export default function SignIn() {
     setLoading(true);
 
     try {
-      const result = await signIn.email({
-        email,
-        password,
-      });
+      const result = await signIn.email(
+        {
+          email,
+          password,
+        },
+        {
+          onSuccess: () => {
+            router.push("/dashboard");
+            window.location.href = "/dashboard";
+          },
+          onError: (ctx) => {
+            setError(ctx.error.message ?? "Failed to sign in");
+            setLoading(false);
+          },
+        }
+      );
 
-      if (result.error) {
+      if (result?.error) {
         setError(result.error.message ?? "Failed to sign in");
-      } else {
-        router.push("/dashboard");
+        setLoading(false);
       }
     } catch (err) {
       setError("An unexpected error occurred");
-    } finally {
       setLoading(false);
     }
   }

@@ -32,20 +32,30 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      const result = await signUp.email({
-        name,
-        email,
-        password,
-      });
+      const result = await signUp.email(
+        {
+          name,
+          email,
+          password,
+        },
+        {
+          onSuccess: () => {
+            router.push("/dashboard");
+            window.location.href = "/dashboard";
+          },
+          onError: (ctx) => {
+            setError(ctx.error.message ?? "Failed to sign up");
+            setLoading(false);
+          },
+        }
+      );
 
-      if (result.error) {
+      if (result?.error) {
         setError(result.error.message ?? "Failed to sign up");
-      } else {
-        router.push("/dashboard");
+        setLoading(false);
       }
     } catch (err) {
       setError("An unexpected error occurred");
-    } finally {
       setLoading(false);
     }
   }
