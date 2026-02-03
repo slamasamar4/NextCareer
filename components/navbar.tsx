@@ -1,12 +1,12 @@
 import{Briefcase} from "lucide-react";
 import Link from "next/link";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 
 
 
-export default function navbar(){
+export default function Navbar(){
     return(
-       
+
     <nav className="border-b border-gray-200 bg-white">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link
@@ -17,7 +17,7 @@ export default function navbar(){
           Job Tracker
         </Link>
         <div className="flex items-center gap-4">
-          
+
               <Link href="/dashboard">
                 <Button
                   variant="ghost"
@@ -26,18 +26,11 @@ export default function navbar(){
                   Dashboard
                 </Button>
               </Link>
-             
-                  
-                    
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                      </p>
-                    </div>
-                
+
+
+
             <>
-              <Link href="/sign-in">
+                <Link href="/sign-in">
                 <Button
                   variant="ghost"
                   className="text-gray-700 hover:text-black"
