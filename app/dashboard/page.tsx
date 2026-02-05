@@ -1,92 +1,57 @@
-"use client";
+import { getSession } from "@/lib/auth/auth";
+import connectDB from "@/lib/db";
+import { Board } from "@/lib/models";
+import { redirect } from "next/navigation";
+import KanbanBoard from "@/components/kanban-board";
+import { Suspense } from "react";
 
-import { useSession, signOut } from "@/lib/auth/auth-client";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+async function getBoard(userId: string) {
+  "use cache";
 
-export default function Dashboard() {
-  const { data: session, isPending } = useSession();
-  const router = useRouter();
+  await connectDB();
 
-  useEffect(() => {
-    if (!isPending && !session) {
-      router.push("/sign-in");
-    }
-  }, [session, isPending, router]);
+  const boardDoc = await Board.findOne({
+    userId: userId,
+    name: "Job Hunt",
+  }).populate({
+    path: "columns",
+    populate: {
+      path: "jobApplications",
+    },
+  });
 
-  if (isPending) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
-  }
+  if (!boardDoc) return null;
 
-  if (!session) {
-    return null;
+  const board = JSON.parse(JSON.stringify(boardDoc));
+
+  return board;
+}
+
+async function DashboardPage() {
+  const session = await getSession();
+  const board = await getBoard(session?.user.id ?? "");
+
+  if (!session?.user) {
+    redirect("/sign-in");
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="mt-2 text-gray-600">
-              Welcome back, {session.user?.name || session.user?.email}!
-            </p>
-          </div>
-          <Button
-            onClick={async () => {
-              await signOut();
-              router.push("/");
-            }}
-            variant="outline"
-          >
-            Sign Out
-          </Button>
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto p-6">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-black">Job Hunt</h1>
+          <p className="text-gray-600">Track your job applications</p>
         </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div>
-                  <p className="text-sm text-gray-600">Name</p>
-                  <p className="font-medium">{session.user?.name || "N/A"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Email</p>
-                  <p className="font-medium">{session.user?.email}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Stats</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">Your dashboard is ready!</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">No recent activity yet.</p>
-            </CardContent>
-          </Card>
-        </div>
+        <KanbanBoard board={board} userId={session.user.id} />
       </div>
     </div>
+  );
+}
+
+export default async function Dashboard() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <DashboardPage />
+    </Suspense>
   );
 }
