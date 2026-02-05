@@ -1,24 +1,24 @@
 import mongoose ,{Schema,Document} from "mongoose";
 export  interface IJobApplication extends Document {
-    companyName : string;
+    company : string;
      position : string;
      location? : string;
      status : string;
      columnId : mongoose.Types.ObjectId;
      boardId : mongoose.Types.ObjectId;
      userId : string;
-     order : number;
+     order: number;
      notes? : string;
      salary? : string;
      jobUrl? : string;
-    appliedDate : Date;
-    tags : string[];
-    description : string;
+    appliedDate?: Date;
+    tags?: string[];
+    description?: string;
      createdAt: Date;
      updatedAt: Date;
      }
 const JobApplicationSchema : Schema = new Schema ( {
-    companyName : {
+    company : {
         type: String,
         required: true,
     },
