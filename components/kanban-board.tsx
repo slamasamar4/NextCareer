@@ -6,7 +6,7 @@ import {
   Calendar,
   CheckCircle2,
   Mic,
-  MoreHorizontal,
+ // MoreHorizontal,
   MoreVertical,
   Trash2,
   XCircle,

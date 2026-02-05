@@ -6,7 +6,9 @@ import KanbanBoard from "@/components/kanban-board";
 import { Suspense } from "react";
 
 async function getBoard(userId: string) {
-  "use cache";
+  // Note: removed the experimental "use cache" directive because
+  // `cacheComponents` is not enabled in next.config.js. If you want
+  // to enable component caching in Next.js canary, set that flag.
 
   await connectDB();
 
